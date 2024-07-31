@@ -7,14 +7,20 @@ mongoose.connect(process.env.DATABASE_URL).then(console.log("connexr")).catch((e
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
-const corsOptions = {
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
+const allowedOrigins = ['https://twello-assignment-frontend.vercel.app'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-  };
-  
-app.use(cors(corsOptions));
+    credentials: true
+}));
+
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 app.use(express.json());
