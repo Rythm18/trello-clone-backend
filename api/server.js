@@ -7,6 +7,13 @@ mongoose.connect(process.env.DATABASE_URL).then(console.log("connexr")).catch((e
 const cors = require("cors");
 
 const app = express();
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  };
+  
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 app.use(cors());
