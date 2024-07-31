@@ -16,15 +16,15 @@ const signupSchema = zod.object({
 });
 
 router.post("/signup", async (req, res) => {
-    
   const userObject = req.body;
   const hashedPassword = await bcrypt.hash(userObject.password, 10);
 
   const response = signupSchema.safeParse(userObject);
 
   if (!response.success) {
-    return res.status(411).json({
+    return res.status(400).json({
       message: "Incorrect inputs",
+      code: 'INVALID_INPUTS',
     });
   }
 
@@ -32,10 +32,12 @@ router.post("/signup", async (req, res) => {
     username: userObject.username,
   });
 
-  if (existingUser)
-    res.status(411).json({
-      message: "Email already taken",
+  if (existingUser) {
+    return res.status(409).json({
+      message: "Username already taken",
+      code: 'USER_EXISTS',
     });
+  }
 
   const user = await User.create({
     username: userObject.username,
@@ -44,8 +46,6 @@ router.post("/signup", async (req, res) => {
   });
 
   const userId = user._id;
-
-
   const token = jwt.sign({ userId }, JWT_SECRET);
 
   res.json({
@@ -53,6 +53,7 @@ router.post("/signup", async (req, res) => {
     token: token,
   });
 });
+
 
 const signinSchema = zod.object({
   email: zod.string().email()
