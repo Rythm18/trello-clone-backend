@@ -7,7 +7,7 @@ mongoose.connect(process.env.DATABASE_URL).then(console.log("connexr")).catch((e
 const cors = require("cors");
 
 const app = express();
-const allowedOrigins = ['https://twello-assignment-frontend.vercel.app'];
+const allowedOrigins = ['https://twello-assignment-frontend.vercel.app', 'http://localhost:3000'];
 
 app.use(cors({
     origin: (origin, callback) => {

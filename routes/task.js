@@ -33,17 +33,6 @@ router.get("/getTasks", async (req, res) => {
     res.json(tasks);
 });
 
-router.post('/updateTask', async (req, res) => {
-    const { taskId, status } = req.body;
-  
-    console.log(req.body);
-      await Task.findByIdAndUpdate(taskId, {
-        status: status,
-      });
-    
-  
-    res.status(200).json({ message: 'Order updated successfully' });
-  });
 
 
 router.post('/updateTasksBatch', async (req, res) => {
@@ -59,6 +48,7 @@ router.post('/updateTasksBatch', async (req, res) => {
       res.status(500).send({ error: 'Error updating tasks' });
     }
 });
+
   
   
 router.delete("/deleteTask", async (req, res) => {
