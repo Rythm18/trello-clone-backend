@@ -14,10 +14,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'],
   };
   
-app.use(function (req, res, next) {
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-});
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 app.use(express.json());
