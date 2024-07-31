@@ -44,6 +44,22 @@ router.post('/updateTask', async (req, res) => {
   
     res.status(200).json({ message: 'Order updated successfully' });
   });
+
+
+router.post('/updateTasksBatch', async (req, res) => {
+    const {taskId , newStatus} = req.body; 
+    console.log(req.body);
+    try {
+        await Task.findByIdAndUpdate(taskId, {
+            status: newStatus,
+          });
+        console.log("Tasks updated successfully");
+      res.status(200).send({ message: 'Tasks updated successfully' });
+    } catch (error) {
+      res.status(500).send({ error: 'Error updating tasks' });
+    }
+});
+  
   
 router.delete("/deleteTask", async (req, res) => {
     const taskId = res.body.id;
